@@ -1,7 +1,7 @@
 import { Message } from "ai/react";
 import ChatMessage from "@/components/sofya/chat-message";
 import ChatLoading from "@/components/sofya/chat-loading";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 interface ChatProps {
    messages: Message[];

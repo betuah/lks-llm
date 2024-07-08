@@ -3,7 +3,7 @@ import { Message } from "ai/react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import ChatButton from "@/components/chat/chat-button";
+import ChatButton from "@/components/sofya/chat-button";
 import CodeDisplayBlock from "@/components/code-display-block";
 import RobotIcon from "@/components/svg/robotIcon";
 import IconFaceManShimmer from "@/components/svg/faceManIcon";

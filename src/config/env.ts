@@ -1,1 +1,1 @@
-export const ollama_url = process.env.NEXT_PUBLIC_OLLAMA_URL;
+export const ollama_url = process.env.NEXT_PUBLIC_OLLAMA_URL || "http://localhost:11434";

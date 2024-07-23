@@ -1,5 +1,9 @@
 const Home = () => {
-  return <div>Page</div>
+  return (
+    <div>
+      Hello, Congrastulations! If you see this, your app is working.
+    </div>
+  )
 }
 
 export default Home

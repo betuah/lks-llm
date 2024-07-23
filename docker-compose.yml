@@ -17,6 +17,11 @@ services:
           # reservations:
           #     cpus: 1.00
           #     memory: 128M
+          # reservations:
+          #     devices:
+          #       - driver: nvidia
+          #         count: 1
+          #         capabilities: [gpu]
 
   open-webui:
     image: ghcr.io/open-webui/open-webui:ollama

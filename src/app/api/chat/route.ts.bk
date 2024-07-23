@@ -1,0 +1,73 @@
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama";
+import { VectorStoreRetrieverMemory } from "langchain/memory";
+import { ChatOllama } from "@langchain/community/chat_models/ollama";
+import { LangChainAdapter, Message as VercelChatMessage, StreamingTextResponse } from "ai";
+import { PromptTemplate } from "@langchain/core/prompts";
+import { ollama_url } from "@/config/env";
+
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
+
+const TEMPLATE = `
+Student name: {nama_siswa}
+
+Relevant conversation history:
+{chat_history}
+
+Student: {input}
+
+Sofya:`;
+
+// Inisialisasi OllamaEmbeddings
+const embeddings = new OllamaEmbeddings({
+  model: "sofya", // atau model embedding lain yang Anda pilih
+  baseUrl: ollama_url || "http://localhost:11434",
+});
+
+// Inisialisasi VectorStore dan Memory
+const vectorStore = new MemoryVectorStore(embeddings);
+const memory = new VectorStoreRetrieverMemory({
+  vectorStoreRetriever: vectorStore.asRetriever(2), // Mengambil 2 memori paling relevan
+  inputKey: "input",
+  memoryKey: "chat_history",
+});
+
+export async function POST(req: Request) {
+  const { messages } = await req.json();
+  const currentMessageContent = messages[messages.length - 1].content;
+
+  const ollama = new ChatOllama({
+    baseUrl: ollama_url || "http://localhost:11434",
+    model: "sofya",
+    temperature: 0.6,
+    topP: 0.9,
+    frequencyPenalty: 0.2,
+    presencePenalty: 0.2,
+    stop: ["Student:", "Sofya:"],
+  });
+
+  const prompt = PromptTemplate.fromTemplate(TEMPLATE);
+
+  // Menyimpan semua pesan sebelumnya ke dalam memory
+  for (let i = 0; i < messages.length - 1; i++) {
+    await memory.saveContext(
+      { input: messages[i].content },
+      { output: messages[i+1].content }
+    );
+  }
+
+  const chain = prompt.pipe(ollama);
+
+  const relevantHistory = await memory.loadMemoryVariables({ input: currentMessageContent });
+
+  const stream = await chain.stream({
+    input: currentMessageContent,
+    nama_siswa: "Betuah Anugerah",
+    chat_history: relevantHistory.chat_history,
+  });
+
+  const aiStream = LangChainAdapter.toAIStream(stream);
+
+  return new StreamingTextResponse(aiStream);
+}

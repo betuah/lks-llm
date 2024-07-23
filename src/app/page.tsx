@@ -1,7 +1,7 @@
 const Home = () => {
   return (
     <div>
-      Hello, Congrastulations! If you see this, your app is working.
+      Hello, Congratulations! If you see this, your app is working.
     </div>
   )
 }

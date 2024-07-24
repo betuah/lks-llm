@@ -43,9 +43,9 @@ const Chat = () => {
    };
 
    return (
-      <div className="flex flex-col w-full max-w-3xl">
-         <div className="flex-grow overflow-hidden">
-            <div className="h-full flex flex-col">
+      <div className="flex flex-col flex-1">
+         <div className="h-full overflow-hidden w-full">
+            <div className="h-full flex flex-col w-full">
                {/* <div className="hidden md:block w-full px-4 pt-4 z-10 text-center">
                   <h1 className="text-2xl md:text-4xl font-bold">
                      Chat with <span className="text-secondary">Sofya</span>

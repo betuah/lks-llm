@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import {
    DropdownMenu,
    DropdownMenuContent,
@@ -19,11 +20,14 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GearIcon } from "@radix-ui/react-icons";
 // import UsernameForm from "./username-form";
-import EditUsernameForm from "./edit-username-form";
 import { Skeleton } from "@/components/ui/skeleton";
+import EditUsernameForm from "./edit-username-form";
 
 const UserSettings = () => {
-   const [name, setName] = useState("Betuah Anugerah");
+   const { data: session, status } = useSession();
+   const userData = session?.user as any;
+   const [name, setName] = useState<string>(userData?.name);
+
    const [open, setOpen] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
 

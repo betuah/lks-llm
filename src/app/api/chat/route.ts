@@ -27,20 +27,22 @@ Notes:
 
 Keep all explanations and tips in Indonesian, except for English terms or examples. Use simple, clear language throughout.
 
+Student Name: {student_name}
+
 ## Conversation:
 Chat History:
 {chat_history}
 
-Student: {input}
+Student Inquiry: {input}
 `;
 export async function POST(req: Request) {
-   const { messages }: { messages: VercelChatMessage[] } = await req.json();
+   const { messages, name, model, id, region }: { messages: VercelChatMessage[], name: string, model: string, id: string, region: string } = await req.json();
    const lastMsg = messages[messages.length - 1];
    const currentMessageContent = lastMsg.content;
 
    const ollama = new ChatOllama({
-      // baseUrl: ollama_url || "http://localhost:11434",
       baseUrl: "http://localhost:11434",
+      // baseUrl: `${process.env.NEXT_PUBLIC_OLLAMA_URL}/${region}`,
       model: "llama3",
       temperature: 0.7,
       topP: 0.9,
@@ -72,7 +74,7 @@ export async function POST(req: Request) {
 
    const stream = await chain.stream({
       input: currentMessageContent,
-      nama_siswa: "Betuah Anugerah",
+      student_name: name,
       chat_history: chatHistory,
    });
 

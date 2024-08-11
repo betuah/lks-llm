@@ -1,15 +1,9 @@
-// import { SessionProvider } from "next-auth/react";
+import { AuthWrapper } from "@/providers/authWrapper";
 
 export default function ContentLayout({
    children,
 }: Readonly<{
    children: React.ReactNode;
 }>) {
-   return (
-      <>
-         {/* <SessionProvider> */}
-            {children}
-         {/* </SessionProvider> */}
-      </>
-   );
+   return <AuthWrapper>{children}</AuthWrapper>;
 }

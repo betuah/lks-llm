@@ -11,8 +11,7 @@ const Dashboard = () => {
    const sesData = session as any
 
    useEffect(() => {
-      if (sesData?.error === "RefreshAccessTokenError") {
-         // Arahkan pengguna ke halaman signin
+      if (sesData?.user?.error === "RefreshAccessTokenError") {
          router.push("/signin");
       }
    }, [session]);
@@ -22,8 +21,10 @@ const Dashboard = () => {
    }
 
    return (
-      <div className="flex flex-col gap-4 break-all w-full max-w-3xl">
-         <pre>{JSON.stringify(sesData.user)}</pre>
+      <div className="flex flex-col gap-4 h-screen w-full max-w-3xl mx-auto">
+         <div className="flex flex-col">
+            Test
+         </div>
       </div>
    );
 };

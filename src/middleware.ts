@@ -12,8 +12,14 @@ export default auth((req) => {
       return NextResponse.next();
    }
 
-
    if (!isLoggedIn) {
+      return NextResponse.redirect(new URL("/signin", nextUrl));
+   }
+
+   // Check for refresh token expiration
+   const session = req.auth as any;
+   if (session?.error === "RefreshAccessTokenError") {
+      // Redirect to login page if refresh token is expired
       return NextResponse.redirect(new URL("/signin", nextUrl));
    }
 

@@ -84,11 +84,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
          return token;
       },
-      async session({ session, token }) {
-         const sesData = session as any
-         sesData.user = token.user as any;
-         sesData.error = token.error;
-         return sesData;
+      async session({ session, token }: any) {
+         session.user = token.user as any;
+         session.error = token.error;
+         return session;
       },
    },
    pages: {

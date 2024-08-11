@@ -112,7 +112,6 @@ const ChatMessage = ({
                   <div className="flex gap-2 mt-5 mb-2 bg-background bg-opacity-10 rounded-sm p-4 border border-primary w-full">
                      <span className="text-md text-secondary">💡</span>
                      <span className="text-xs text-secondary">
-                        <span className="font-bold">Notes:</span>
                         <Markdown
                            remarkPlugins={[remarkGfm]}
                            components={customRenderers}

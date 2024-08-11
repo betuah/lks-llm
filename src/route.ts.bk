@@ -1,0 +1,77 @@
+import NextAuth, { User } from "next-auth";
+import { JWT } from "next-auth/jwt";
+import CredentialsProvider from "next-auth/providers/credentials";
+import {
+   CognitoIdentityProviderClient,
+   InitiateAuthCommand,
+   AuthFlowType,
+} from "@aws-sdk/client-cognito-identity-provider";
+
+const cognitoClient = new CognitoIdentityProviderClient({
+   region: process.env.AWS_REGION,
+});
+
+// Mendefinisikan tipe custom untuk user
+interface CognitoUser extends User {
+   accessToken?: string;
+   refreshToken?: string;
+}
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+   providers: [
+      CredentialsProvider({
+         name: "Cognito",
+         credentials: {
+            username: { label: "Username", type: "text" },
+            password: { label: "Password", type: "password" },
+         },
+         async authorize(credentials): Promise<CognitoUser | null> {
+            if (!credentials?.username || !credentials?.password) {
+               return null;
+            }
+
+            try {
+               const params = {
+                  AuthFlow: "USER_PASSWORD_AUTH" as AuthFlowType,
+                  ClientId: process.env.COGNITO_CLIENT_ID!,
+                  AuthParameters: {
+                     USERNAME: credentials.username as string,
+                     PASSWORD: credentials.password as string,
+                  },
+               };
+
+               const command = new InitiateAuthCommand(params);
+               const response = await cognitoClient.send(command);
+
+               if (response.AuthenticationResult) {
+                  return {
+                     id: credentials.username as string,
+                     name: credentials.username as string,
+                     email: credentials.username as string,
+                     accessToken: response.AuthenticationResult.AccessToken,
+                     refreshToken: response.AuthenticationResult.RefreshToken,
+                  };
+               }
+            } catch (error) {
+               console.error("Authentication error:", error);
+            }
+
+            return null;
+         },
+      }),
+   ],
+   // callbacks: {
+   //    async jwt({ token, user }: { token: JWT; user?: CognitoUser }) {
+   //       if (user) {
+   //          token.accessToken = (user as CognitoUser).accessToken;
+   //          token.refreshToken = (user as CognitoUser).refreshToken;
+   //       }
+   //       return token;
+   //    },
+   //    async session({ session, token }: { session: any; token: JWT }) {
+   //       (session as any).accessToken = token.accessToken;
+   //       (session as any).refreshToken = token.refreshToken;
+   //       return session;
+   //    },
+   // }
+});

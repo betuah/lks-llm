@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ThemeProvider } from "@/provider/theme-provider";
-import { Toaster } from "@/components/ui/sonner"
+import { ThemeProvider } from "@/providers/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { Providers } from "@/providers/auth";
 
 import "@/styles/globals.css";
 
@@ -19,17 +20,18 @@ export default function RootLayout({
 }>) {
    return (
       <html lang="en">
-         {/* <body className={inter.className}>{children}</body> */}
-         <body>
-            <ThemeProvider
-               attribute="class"
-               defaultTheme="system"
-               enableSystem
-               disableTransitionOnChange
-            >
-               {children}
-               <Toaster />
-            </ThemeProvider>
+         <body className={inter.className}>
+            <Providers>
+               <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                  disableTransitionOnChange
+               >
+                  {children}
+                  <Toaster position="top-center" />
+               </ThemeProvider>
+            </Providers>
          </body>
       </html>
    );

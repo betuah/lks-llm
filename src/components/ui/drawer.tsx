@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
-import { cn } from "@/libs/utils";
+import { cn } from "@/lib/utils";
 
 type DrawerDirection = "right" | "left" | "bottom";
 

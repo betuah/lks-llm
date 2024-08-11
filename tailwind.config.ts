@@ -68,11 +68,57 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "background-position-spin": {
+          "0%": { backgroundPosition: "top center" },
+          "100%": { backgroundPosition: "bottom center" },
+        },
+        'rotate-fade-in': {
+          '0%': { 
+            transform: 'rotate(-3deg) translateY(10px)', 
+            opacity: '0' 
+          },
+          '100%': { 
+            transform: 'rotate(0deg) translateY(0)', 
+            opacity: '1' 
+          },
+        },
+        'slide-right-fade-in': {
+          '0%': { opacity: '0', transform: 'translateX(-6%)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        'slide-left-fade-in': {
+          '0%': { opacity: '0', transform: 'translateX(6%)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        'slide-down-fade-in': {
+          '0%': { opacity: '0', transform: 'translateY(-50%)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'slide-up-fade-in': {
+          '0%': { opacity: '0', transform: 'translateY(50%)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        backgroundPositionSpin: "background-position-spin 3000ms infinite alternate",
+        'rotate-fade-in': 'rotate-fade-in 0.8s ease-out forwards',
+        'slide-right-fade-in': 'slide-right-fade-in 0.6s ease-out forwards',
+        'slide-left-fade-in': 'slide-left-fade-in 0.6s ease-out forwards',
+        'slide-down-fade-in': 'slide-down-fade-in 0.6s ease-out forwards',
+        'slide-up-fade-in': 'slide-up-fade-in 0.6s ease-out forwards',
+        'fade-in': 'fade-in 0.8s ease-out forwards',
       },
+    },
+  },
+  variants: {
+    extend: {
+      animation: ['responsive', 'motion-safe', 'motion-reduce'],
     },
   },
   plugins: [require("tailwindcss-animate")],

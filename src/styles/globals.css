@@ -83,6 +83,25 @@
    }
 }
 
+@layer components {
+   .hover-underline {
+      @apply relative inline-block;
+   }
+   .hover-underline::after {
+      content: "";
+      @apply absolute bg-current;
+      width: 0;
+      height: 1px;
+      bottom: 0;
+      left: 50%;
+      transition: width 0.4s ease, left 0.4s ease;
+   }
+   .hover-underline:hover::after {
+      width: 100%;
+      left: 0;
+   }
+}
+
 #scroller * {
    overflow-anchor: none;
 }
@@ -116,4 +135,4 @@
    width: 0;
    height: 0;
    visibility: hidden;
-} 
+}

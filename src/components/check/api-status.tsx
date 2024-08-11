@@ -14,7 +14,7 @@ interface ApiStatusType {
 interface Endpoint {
    name: string;
    url: string;
-   method: "GET" | "POST";
+   method: "GET" | "POST" | "PUT" | "DELETE";
    body?: object;
 }
 
@@ -38,12 +38,26 @@ const ApiStatus: React.FC<ApiStatusProps> = ({ endpoints }) => {
       for (const endpoint of endpoints) {
          try {
             let response;
-            if (endpoint.method === "GET") {
-               response = await api.get(endpoint.url);
-            } else if (endpoint.method === "POST" && endpoint.body) {
-               response = await api.post(endpoint.url, endpoint.body);
-            } else {
-               throw new Error("Unsupported method");
+
+            switch (endpoint.method) {
+               case "GET":
+                  response = await api.get(endpoint.url);
+                  break;
+            
+               case "POST":
+                  response = await api.post(endpoint.url, endpoint.body);
+                  break;
+
+               case "PUT":
+                  response = await api.put(endpoint.url, endpoint.body);
+                  break;
+               
+               case "DELETE":
+                  response = await api.delete(endpoint.url);
+                  break;
+
+               default:
+                  throw new Error("Unsupported method");
             }
 
             setApiStatus((prev) => ({

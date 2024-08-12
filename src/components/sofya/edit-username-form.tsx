@@ -1,87 +1,111 @@
 "use client";
 
-import { set, z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
-   Form,
-   FormControl,
-   FormDescription,
-   FormField,
-   FormItem,
-   FormLabel,
-   FormMessage,
-} from "@/components/ui/form";
+   Select,
+   SelectContent,
+   SelectItem,
+   SelectTrigger,
+   SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useState } from "react";
-// import { ModeToggle } from "./mode-toggle";
-import { toast } from "sonner";
-
-const formSchema = z.object({
-   username: z.string().min(2, {
-      message: "Name must be at least 2 characters.",
-   }),
-});
+import { Label } from "@/components/ui/label";
 
 interface EditUsernameFormProps {
    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function EditUsernameForm({ setOpen }: EditUsernameFormProps) {
-   const [name, setName] = useState("");
+   const { data: session } = useSession();
+   const sesData = session?.user as any;
 
-   useEffect(() => {
-      setName(localStorage.getItem("ollama_user") || "Anonymous");
-   }, []);
+   const [name, setName] = useState<string>(sesData?.name );
+   const [llmModel, setLlmModel] = useState<string>("orca-mini");
+   const [embedModel, setEmbedModel] = useState<string>("nomic-embed-text");
+   const [region, setRegion] = useState<string>("us-east-1");
+   const [isLoading, setLoading] = useState<boolean>(false);
 
-   const form = useForm<z.infer<typeof formSchema>>({
-      resolver: zodResolver(formSchema),
-      defaultValues: {
-         username: "",
-      },
-   });
-
-   function onSubmit(values: z.infer<typeof formSchema>) {
-      localStorage.setItem("ollama_user", values.username);
-      window.dispatchEvent(new Event("storage"));
-      toast.success("Name updated successfully");
-   }
-
-   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+   const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-      form.setValue("username", e.currentTarget.value);
-      setName(e.currentTarget.value);
+      const data = { name, llmModel, embedModel, region };
+
+      localStorage.setItem("settings", JSON.stringify(data));
+      window.dispatchEvent(new Event("storage"));
+      toast.success("Settings saved!");
+      setOpen(false);
    };
 
+   const getModels = async () => {
+      try {
+         
+      } catch (error) {
+         toast.error("Get models error!");
+      }
+   }
+
    return (
-      <Form {...form}>
-         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-               control={form.control}
-               name="username"
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel>Name</FormLabel>
-                     <FormControl>
-                        <div className="md:flex gap-4">
-                           <div className="flex flex-1">
-                              <Input
-                                 {...field}
-                                 type="text"
-                                 value={name}
-                                 onChange={(e) => handleChange(e)}
-                                 className="w-full border border-white"
-                              />
-                           </div>
-                           <Button type="submit" className="text-primary-foreground">Change name</Button>
-                        </div>
-                     </FormControl>
-                     <FormMessage />
-                  </FormItem>
-               )}
-            />
-         </form>
-      </Form>
+      <form onSubmit={handleSubmit} className="space-y-4">
+         <div className="flex flex-col gap-4">
+            <div className="lex flex-col gap-4">
+               <Label htmlFor="name">Full Name</Label>
+               <div className="mt-2">
+                  <Input
+                     id="name"
+                     value={name}
+                     onChange={(e) => setName(e.target.value)}
+                     placeholder="Enter your full name"
+                  />
+               </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+               <Label htmlFor="region">Region</Label>
+               <Select onValueChange={setRegion} value={region}>
+                  <SelectTrigger>
+                     <SelectValue placeholder="Select a region" />
+                  </SelectTrigger>
+                  <SelectContent>
+                     <SelectItem value="us-east-1">N. Virginia</SelectItem>
+                     <SelectItem value="us-west-2">Oregon</SelectItem>
+                  </SelectContent>
+               </Select>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-2">
+               <div className="flex flex-1 flex-col gap-2">
+                  <Label htmlFor="llmModel">LLM Model</Label>
+                  <Select onValueChange={setLlmModel} value={llmModel}>
+                     <SelectTrigger>
+                        <SelectValue placeholder="Select LLM model" />
+                     </SelectTrigger>
+                     <SelectContent>
+                        <SelectItem value="orca-mini">Orca Mini</SelectItem>
+                        <SelectItem value="llama2">Llama 2</SelectItem>
+                        {/* Add more LLM models as needed */}
+                     </SelectContent>
+                  </Select>
+               </div>
+               <div className="flex flex-1 flex-col gap-2">
+                  <Label htmlFor="embedModel">Embed Model</Label>
+                  <Select onValueChange={setEmbedModel} value={embedModel}>
+                     <SelectTrigger>
+                        <SelectValue placeholder="Select embed model" />
+                     </SelectTrigger>
+                     <SelectContent>
+                        <SelectItem value="nomic-embed-text">Nomic Embed Text</SelectItem>
+                        <SelectItem value="bert">Bert</SelectItem>
+                     </SelectContent>
+                  </Select>
+               </div>
+            </div>
+
+            <Button type="submit" disabled={isLoading}>
+               {isLoading ? "Updating..." : "Update"}
+            </Button>
+         </div>
+      </form>
    );
 }

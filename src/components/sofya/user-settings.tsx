@@ -22,6 +22,7 @@ import { GearIcon } from "@radix-ui/react-icons";
 // import UsernameForm from "./username-form";
 import { Skeleton } from "@/components/ui/skeleton";
 import EditUsernameForm from "./edit-username-form";
+import { LogOut } from "lucide-react";
 
 const UserSettings = () => {
    const { data: session, status } = useSession();
@@ -75,7 +76,7 @@ const UserSettings = () => {
                </div>
             </Button>
          </DropdownMenuTrigger>
-         <DropdownMenuContent className="w-60 p-2 bg-accent border-[0.3px] border-white">
+         <DropdownMenuContent className="w-60 p-2 bg-background border-[0.3px] border-white">
             <Dialog>
                <DialogTrigger className="w-full">
                   <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
@@ -84,8 +85,14 @@ const UserSettings = () => {
                         Settings
                      </div>
                   </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                     <div className="flex w-full gap-2 p-1 items-center cursor-pointer">
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                     </div>
+                  </DropdownMenuItem>
                </DialogTrigger>
-               <DialogContent>
+               <DialogContent className="border border-primary">
                   <DialogHeader className="space-y-4">
                      <DialogTitle>Settings</DialogTitle>
                      <EditUsernameForm setOpen={setOpen} />

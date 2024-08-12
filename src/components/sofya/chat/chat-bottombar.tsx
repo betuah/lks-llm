@@ -125,25 +125,23 @@ const ChatBottomBar: React.FC<ChatBottomProps> = ({
                   value={value}
                   onChange={onChange}
                   onKeyDown={handleKeyPress}
-                  className="max-h-24 px-14 bg-accent py-[22px] text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 w-full  rounded-full flex items-center h-16 resize-none overflow-hidden dark:bg-accent"
+                  className="max-h-24 pl-14 pr-24 bg-accent py-[22px] text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-full flex items-center h-16 resize-none overflow-hidden dark:bg-accent"
                   placeholder="Write a message..."
                />
                {!isLoading ? (
                   <div className="flex absolute right-3 items-center">
                      {isListening ? (
-                        <div className="flex">
-                           <Button
-                              className="shrink-0 relative rounded-full bg-blue-500/30 hover:bg-blue-400/30 "
-                              variant="ghost"
-                              size="icon"
-                              type="button"
-                              onClick={toggleListening}
-                              disabled={isLoading}
-                           >
-                              <Mic className="w-5 h-5 " />
-                              <span className="animate-pulse absolute h-[120%] w-[120%] rounded-full bg-blue-500/30" />
-                           </Button>
-                        </div>
+                        <Button
+                           className="shrink-0 relative rounded-full bg-blue-500/30 hover:bg-blue-400/30 "
+                           variant="ghost"
+                           size="icon"
+                           type="button"
+                           onClick={toggleListening}
+                           disabled={isLoading}
+                        >
+                           <Mic className="w-5 h-5 " />
+                           <span className="animate-pulse absolute h-[120%] w-[120%] rounded-full bg-blue-500/30" />
+                        </Button>
                      ) : (
                         <Button
                            className="shrink-0 rounded-full"

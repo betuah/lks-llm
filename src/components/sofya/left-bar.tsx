@@ -40,7 +40,6 @@ const LeftBar: React.FC<PropsTypes> = ({
 
          return true
       } catch (error) {
-         alert("Error checking region");
          return false;
       }
    }

@@ -35,7 +35,14 @@ interface PropsTypes {
    setMessages: (data: any) => void;
 }
 
-const Conversations = ({ uid, conversations, conversationId, setConversationId, setConversations, setMessages } : PropsTypes) => {
+const Conversations = ({
+   uid,
+   conversations,
+   conversationId,
+   setConversationId,
+   setConversations,
+   setMessages,
+}: PropsTypes) => {
    const [isLoading, setIsloading] = useState<boolean>(false);
    const [error, setError] = useState<boolean>(false);
 
@@ -44,7 +51,16 @@ const Conversations = ({ uid, conversations, conversationId, setConversationId, 
       setError(false);
       try {
          const response = await api.get(`/conversations/${uid}`);
-         setConversations(response.data);
+         const data = response.data;
+         const sorted = data.sort(
+            (
+               a: { createdAt: string | number | Date },
+               b: { createdAt: string | number | Date }
+            ) =>
+               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+         );
+
+         setConversations(sorted);
       } catch (error) {
          setError(true);
       } finally {

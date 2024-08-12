@@ -19,10 +19,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GearIcon } from "@radix-ui/react-icons";
-// import UsernameForm from "./username-form";
 import { Skeleton } from "@/components/ui/skeleton";
 import EditUsernameForm from "./edit-username-form";
 import { LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 const UserSettings = () => {
    const { data: session, status } = useSession();
@@ -31,6 +31,17 @@ const UserSettings = () => {
 
    const [open, setOpen] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
+
+   const handleSignOut = async () => {
+      setIsLoading(true);
+      try {
+         await signOut({ callbackUrl: "/" });
+      } catch (error) {
+         console.error("Error signing out:", error);
+      } finally {
+         setIsLoading(false);
+      }
+   };
 
    useEffect(() => {
       const handleStorageChange = () => {
@@ -85,13 +96,16 @@ const UserSettings = () => {
                         Settings
                      </div>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                     <div className="flex w-full gap-2 p-1 items-center cursor-pointer">
-                        <LogOut className="w-4 h-4" />
-                        Sign Out
-                     </div>
-                  </DropdownMenuItem>
                </DialogTrigger>
+               <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  <div
+                     className="flex w-full gap-2 p-1 items-center cursor-pointer"
+                     onClick={handleSignOut}
+                  >
+                     <LogOut className="w-4 h-4" />
+                     Sign Out
+                  </div>
+               </DropdownMenuItem>
                <DialogContent className="border border-primary">
                   <DialogHeader className="space-y-4">
                      <DialogTitle>Settings</DialogTitle>

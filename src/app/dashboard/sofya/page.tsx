@@ -5,6 +5,9 @@ import { useSession } from "next-auth/react";
 import { useChat } from "ai/react";
 import { v4 as uuid } from 'uuid';
 import { AlignJustify, GanttChartIcon } from "lucide-react";
+import { toast } from "sonner";
+
+import api from "@/lib/api";
 
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -20,6 +23,7 @@ const ChatLayout = () => {
    const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
 
    const [conversationId, setConversationId] = useState<string>(uuid());
+   const [conversations, setConversations] = useState([]);
    const [submitLoading, setSubmitLoading] = useState<boolean>(false);
    const [error, setError] = useState<string | null>(null);
    const [model, setModel] = useState<string>("orca-mini");
@@ -27,6 +31,7 @@ const ChatLayout = () => {
 
    const {
       messages,
+      setMessages,
       input,
       isLoading,
       setInput,
@@ -62,10 +67,47 @@ const ChatLayout = () => {
       handleSubmit();
    };
 
+   const saveConversations = async () => {
+      try {
+         alert(JSON.stringify(messages))
+         await api.post(`/conversations/${session?.user?.id}`, {
+            id: conversationId,
+            title: messages[1].content.slice(0, 50),
+            conversation: messages.slice(1),
+         })
+
+         getAllConversations()
+      } catch (error) {
+         toast.error('Save conversation error!')
+      }
+   }
+
+   const getAllConversations = async () => {
+      try {
+         const response = await api.get(`/conversations/${session?.user?.id}`)
+
+         setConversations(response.data)
+      } catch (error) {
+         toast.error('Save conversation error!')
+      }
+   }
+
+   const handleConversationChange = (data: any) => {
+      setConversations(data)
+   };
+
+   useEffect(() => {
+      if (!isLoading) {
+         if (messages.length > 1) {
+            saveConversations()
+         }
+      }
+   }, [isLoading]);
+
    if (status === "loading") {
       return (
-         <div className="flex flex-col h-screen">
-            <div className="hidden md:block flex flex-col gap-3 flex-1 mb-12 mt-[74px]">
+         <div className="flex flex-col h-screen pb-12">
+            <div className="hidden md:block flex flex-col gap-3 flex-1 mb-8 mt-14">
                <div className="flex flex-col gap-2 w-full max-w-[75rem] mb-3 mx-auto">
                   <Skeleton className="w-[20%] h-5 mx-auto bg-accent" />
                   <Skeleton className="w-[50%] h-3 mx-auto bg-accent" />
@@ -77,11 +119,15 @@ const ChatLayout = () => {
                      <Skeleton className="w-full h-14 bg-accent rounded-[8px]" />
                   </div>
                   <div className="flex flex-col justify-between flex-1">
-                     <Skeleton className="w-full h-20 bg-accent" />
+                     <div className="flex flex-col gap-4">
+                        <Skeleton className="w-full h-20 bg-accent" />
+                        <Skeleton className="w-[80%] h-20 bg-accent" />
+                     </div>
                      <Skeleton className="w-full h-14 bg-accent" />
                   </div>
-                  <div className="hidden md:flex w-full max-w-[280px]">
-                     <Skeleton className="w-full h-3/4 bg-accent" />
+                  <div className="hidden md:flex flex-col gap-4 w-full max-w-[280px]">
+                     <Skeleton className="w-full h-[60%] bg-accent" />
+                     <Skeleton className="w-full h-[10%] bg-accent" />
                   </div>
                </div>
             </div>
@@ -105,7 +151,14 @@ const ChatLayout = () => {
                      />
                   </DrawerTrigger>
                   <DrawerContent>
-                     <LeftBar uid={userData?.id} />
+                     <LeftBar 
+                        uid={userData?.id} 
+                        conversationId={conversationId}
+                        conversations={conversations} 
+                        setConversationId={setConversationId}
+                        setConversations={handleConversationChange} 
+                        setMessages={setMessages} 
+                     />
                   </DrawerContent>
                </Drawer>
 
@@ -139,7 +192,14 @@ const ChatLayout = () => {
          <div className="flex flex-1 overflow-hidden ">
             <div className="w-full max-w-[75rem] mx-auto h-full flex ">
                <div className="hidden md:flex md:flex-col w-full max-w-[280px] h-full ">
-                  <LeftBar uid={userData?.id} />
+                  <LeftBar 
+                     uid={userData?.id} 
+                     conversationId={conversationId}
+                     conversations={conversations} 
+                     setConversationId={setConversationId}
+                     setConversations={handleConversationChange} 
+                     setMessages={setMessages} 
+                  />
                </div>
                <Sofya
                   messages={messages}

@@ -6,7 +6,6 @@ import {
 import { ChatOllama } from "@langchain/community/chat_models/ollama";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { BufferWindowMemory } from "langchain/memory";
-import { ollama_url } from "@/config/env";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -36,7 +35,19 @@ Chat History:
 Student Inquiry: {input}
 `;
 export async function POST(req: Request) {
-   const { messages, name, model, id, region }: { messages: VercelChatMessage[], name: string, model: string, id: string, region: string } = await req.json();
+   const {
+      messages,
+      name,
+      model,
+      id,
+      region,
+   }: {
+      messages: VercelChatMessage[];
+      name: string;
+      model: string;
+      id: string;
+      region: string;
+   } = await req.json();
    const lastMsg = messages[messages.length - 1];
    const currentMessageContent = lastMsg.content;
 
@@ -51,20 +62,20 @@ export async function POST(req: Request) {
       stop: ["Student:", "Sofya:"],
    });
 
-   const memory = new BufferWindowMemory({
-      memoryKey: "chat_history",
-      inputKey: "input",
-      outputKey: "output",
-      returnMessages: true,
-      humanPrefix: "Student:",
-      aiPrefix: "Sofya:",
-      k: 4,
-   });
+   // const memory = new BufferWindowMemory({
+   //    memoryKey: "chat_history",
+   //    inputKey: "input",
+   //    outputKey: "output",
+   //    returnMessages: true,
+   //    humanPrefix: "Student:",
+   //    aiPrefix: "Sofya:",
+   //    k: 4,
+   // });
 
    const prompt = PromptTemplate.fromTemplate(TEMPLATE);
 
    const chatHistory = messages
-      .slice(0, -1)
+      .slice(1)
       .map(
          (msg) => `${msg.role === "user" ? "Student" : "Sofya"}: ${msg.content}`
       )

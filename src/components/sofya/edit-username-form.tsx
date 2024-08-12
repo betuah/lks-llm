@@ -65,12 +65,15 @@ export default function EditUsernameForm({ setOpen }: EditUsernameFormProps) {
                      <FormLabel>Name</FormLabel>
                      <FormControl>
                         <div className="md:flex gap-4">
-                           <Input
-                              {...field}
-                              type="text"
-                              value={name}
-                              onChange={(e) => handleChange(e)}
-                           />
+                           <div className="flex flex-1">
+                              <Input
+                                 {...field}
+                                 type="text"
+                                 value={name}
+                                 onChange={(e) => handleChange(e)}
+                                 className="w-full border border-white"
+                              />
+                           </div>
                            <Button type="submit" className="text-primary-foreground">Change name</Button>
                         </div>
                      </FormControl>

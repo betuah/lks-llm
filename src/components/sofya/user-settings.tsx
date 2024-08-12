@@ -75,7 +75,7 @@ const UserSettings = () => {
                </div>
             </Button>
          </DropdownMenuTrigger>
-         <DropdownMenuContent className="w-60 p-2 bg-background border-[0.3px] border-white">
+         <DropdownMenuContent className="w-60 p-2 bg-accent border-[0.3px] border-white">
             <Dialog>
                <DialogTrigger className="w-full">
                   <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

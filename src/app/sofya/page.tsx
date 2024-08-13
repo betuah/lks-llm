@@ -102,12 +102,13 @@ const ChatLayout = () => {
             saveConversations()
          }
       }
+   // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [isLoading]);
 
    if (status === "loading") {
       return (
          <div className="flex flex-col h-screen pb-12">
-            <div className="hidden md:block flex flex-col gap-3 flex-1 mb-8 mt-14">
+            <div className="hidden md:flex flex-col gap-3 flex-1 mb-8 mt-14">
                <div className="flex flex-col gap-2 w-full max-w-[75rem] mb-3 mx-auto">
                   <Skeleton className="w-[20%] h-5 mx-auto bg-accent" />
                   <Skeleton className="w-[50%] h-3 mx-auto bg-accent" />

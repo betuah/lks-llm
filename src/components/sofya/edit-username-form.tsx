@@ -15,10 +15,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 interface EditUsernameFormProps {
+   open: boolean;
    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+   setSettings: (data: any) => void;
 }
 
-export default function EditUsernameForm({ setOpen }: EditUsernameFormProps) {
+export default function EditUsernameForm({ open, setOpen, setSettings }: EditUsernameFormProps) {
    const { data: session } = useSession();
    const sesData = session?.user as any;
 
@@ -29,22 +31,28 @@ export default function EditUsernameForm({ setOpen }: EditUsernameFormProps) {
    const [isLoading, setLoading] = useState<boolean>(false);
 
    const handleSubmit = (e: React.FormEvent) => {
+      setLoading(true);
       e.preventDefault();
       const data = { name, llmModel, embedModel, region };
 
       localStorage.setItem("settings", JSON.stringify(data));
+      setSettings(data)
       window.dispatchEvent(new Event("storage"));
       toast.success("Settings saved!");
       setOpen(false);
+      setLoading(false);
    };
 
-   const getModels = async () => {
-      try {
-         
-      } catch (error) {
-         toast.error("Get models error!");
+   useEffect(() => {
+      const settings = localStorage.getItem("settings");
+      if (settings) {
+         const data = JSON.parse(settings);
+         setName(data.name);
+         setLlmModel(data.llmModel);
+         setEmbedModel(data.embedModel);
+         setRegion(data.region);
       }
-   }
+   }, [open]);
 
    return (
       <form onSubmit={handleSubmit} className="space-y-4">

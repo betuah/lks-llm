@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import UserSettings from "./user-settings";
 import Conversations from "./conversations";
 import { Dot } from "lucide-react";
-import api from '@/lib/api';
+import api from "@/lib/api";
 import { useEffect, useState } from "react";
 
 interface ConversationTypes {
@@ -31,18 +31,22 @@ const LeftBar: React.FC<PropsTypes> = ({
    setMessages,
    setConversationId,
 }) => {
-   const settingsData = JSON.parse(localStorage.getItem("settings") || "{}");
+   const [settingsData, setSettingsData] = useState<any>({});
    const [regionStat, setregionStat] = useState<boolean>(false);
 
    const checkRegion = async () => {
       try {
          await api.get(`/${settingsData.region}/tags`);
 
-         return true
+         return true;
       } catch (error) {
          return false;
       }
-   }
+   };
+
+   const handleSettings = (data: any) => {
+      setSettingsData({ ...data });
+   };
 
    useEffect(() => {
       const checkAndUpdateRegion = async () => {
@@ -50,11 +54,20 @@ const LeftBar: React.FC<PropsTypes> = ({
          setregionStat(result);
       };
 
+      const loadSettings = () => {
+         const savedSettings = localStorage.getItem("settings");
+         if (savedSettings) {
+            setSettingsData(JSON.parse(savedSettings));
+         }
+      };
+
+      loadSettings();
       checkAndUpdateRegion();
 
       const intervalId = setInterval(checkAndUpdateRegion, 15000);
 
       return () => clearInterval(intervalId);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
    return (
@@ -81,15 +94,26 @@ const LeftBar: React.FC<PropsTypes> = ({
          <div className="mt-auto md:mb-4">
             <div className="border border-t-gray-800 border-b-0 border-x-0 mb-3 md:mb-1 mx-3"></div>
             <div className="flex flex-col gap-1 px-6 py-3">
-               <span className="text-xs text-muted-foreground">Current Region</span>
+               <span className="text-xs text-muted-foreground">
+                  Current Region
+               </span>
                <div className="flex items-center">
-                  <span className="text-sm font-medium">{settingsData.region === "us-east-1" ? "N.Virginia" : "Oregon"} ({settingsData.region})</span>
-                  <Dot className={`ml-auto w-12 h-12 ${regionStat ? "text-green-500" : "text-red-500"}`} />
+                  <span className="text-sm font-medium">
+                     {settingsData.region === "us-east-1"
+                        ? "N.Virginia"
+                        : "Oregon"}{" "}
+                     ({settingsData.region})
+                  </span>
+                  <Dot
+                     className={`ml-auto w-12 h-12 ${
+                        regionStat ? "text-green-500" : "text-red-500"
+                     }`}
+                  />
                </div>
             </div>
 
             <div className="border border-t-gray-800 border-b-0 border-x-0 mb-3 md:mb-1 mx-3"></div>
-            <UserSettings />
+            <UserSettings setSettings={handleSettings} />
          </div>
       </div>
    );

@@ -24,7 +24,11 @@ import EditUsernameForm from "./edit-username-form";
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 
-const UserSettings = () => {
+interface PropsTypes {
+   setSettings: (data: any) => void;
+}
+
+const UserSettings = ({ setSettings }: PropsTypes) => {
    const { data: session, status } = useSession();
    const userData = session?.user as any;
    const [name, setName] = useState<string>(userData?.name);
@@ -42,22 +46,6 @@ const UserSettings = () => {
          setIsLoading(false);
       }
    };
-
-   useEffect(() => {
-      const handleStorageChange = () => {
-         const username = localStorage.getItem("username");
-         if (username) {
-            setName("Betuah Anugerah");
-            setIsLoading(false);
-         }
-
-         window.addEventListener("storage", handleStorageChange);
-
-         return () => {
-            window.removeEventListener("storage", handleStorageChange);
-         };
-      };
-   }, []);
 
    return (
       <DropdownMenu>
@@ -88,7 +76,7 @@ const UserSettings = () => {
             </Button>
          </DropdownMenuTrigger>
          <DropdownMenuContent className="w-60 p-2 bg-background border-[0.3px] border-white">
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
                <DialogTrigger className="w-full">
                   <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                      <div className="flex w-full gap-2 p-1 items-center cursor-pointer">
@@ -109,7 +97,7 @@ const UserSettings = () => {
                <DialogContent className="border border-primary">
                   <DialogHeader className="space-y-4">
                      <DialogTitle>Settings</DialogTitle>
-                     <EditUsernameForm setOpen={setOpen} />
+                     <EditUsernameForm setSettings={setSettings} open={open} setOpen={setOpen} />
                   </DialogHeader>
                </DialogContent>
             </Dialog>

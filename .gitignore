@@ -13,6 +13,9 @@
 /.next/
 /out/
 
+# Serverless
+/.serverless
+
 # production
 /build
 
@@ -35,3 +38,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+*.code-workspace

@@ -1,5 +1,3 @@
-
-
 # English Chat Apps
 This is an AI assistant application designed specifically for learning English. It aims to provide a comprehensive and interactive learning experience for users who want to improve their English language skills. The application uses advanced AI technologies to facilitate engaging and effective language learning through various interactive features.
 

@@ -31,7 +31,8 @@ const LeftBar: React.FC<PropsTypes> = ({
    setMessages,
    setConversationId,
 }) => {
-   const [settingsData, setSettingsData] = useState<any>({});
+   const settings = localStorage.getItem("settings");
+   const [settingsData, setSettingsData] = useState<any>(JSON.parse(settings || "{}"));
    const [regionStat, setregionStat] = useState<boolean>(false);
 
    const checkRegion = async () => {
@@ -54,14 +55,6 @@ const LeftBar: React.FC<PropsTypes> = ({
          setregionStat(result);
       };
 
-      const loadSettings = () => {
-         const savedSettings = localStorage.getItem("settings");
-         if (savedSettings) {
-            setSettingsData(JSON.parse(savedSettings));
-         }
-      };
-
-      loadSettings();
       checkAndUpdateRegion();
 
       const intervalId = setInterval(checkAndUpdateRegion, 15000);

@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "../ui/skeleton";
 
 interface EditUsernameFormProps {
    open: boolean;
@@ -20,15 +21,20 @@ interface EditUsernameFormProps {
    setSettings: (data: any) => void;
 }
 
-export default function EditUsernameForm({ open, setOpen, setSettings }: EditUsernameFormProps) {
+export default function EditUsernameForm({
+   open,
+   setOpen,
+   setSettings,
+}: EditUsernameFormProps) {
    const { data: session } = useSession();
    const sesData = session?.user as any;
 
-   const [name, setName] = useState<string>(sesData?.name );
+   const [name, setName] = useState<string>(sesData?.name);
    const [llmModel, setLlmModel] = useState<string>("orca-mini");
    const [embedModel, setEmbedModel] = useState<string>("nomic-embed-text");
-   const [region, setRegion] = useState<string>("us-east-1");
+   const [region, setRegion] = useState<string>("");
    const [isLoading, setLoading] = useState<boolean>(false);
+   const [isSettingsLoaded, setIsSettingsLoaded] = useState(false);
 
    const handleSubmit = (e: React.FormEvent) => {
       setLoading(true);
@@ -36,7 +42,7 @@ export default function EditUsernameForm({ open, setOpen, setSettings }: EditUse
       const data = { name, llmModel, embedModel, region };
 
       localStorage.setItem("settings", JSON.stringify(data));
-      setSettings(data)
+      setSettings(data);
       window.dispatchEvent(new Event("storage"));
       toast.success("Settings saved!");
       setOpen(false);
@@ -52,13 +58,19 @@ export default function EditUsernameForm({ open, setOpen, setSettings }: EditUse
          setEmbedModel(data.embedModel);
          setRegion(data.region);
       }
-   }, [open]);
+      setIsSettingsLoaded(true);
+   }, []);
+
+   if (!isSettingsLoaded) {
+      return <Skeleton className="w-full" />;
+   }
 
    return (
       <form onSubmit={handleSubmit} className="space-y-4">
          <div className="flex flex-col gap-4">
             <div className="lex flex-col gap-4">
                <Label htmlFor="name">Full Name</Label>
+               <span>{region || "kosong"}</span>
                <div className="mt-2">
                   <Input
                      id="name"
@@ -103,7 +115,9 @@ export default function EditUsernameForm({ open, setOpen, setSettings }: EditUse
                         <SelectValue placeholder="Select embed model" />
                      </SelectTrigger>
                      <SelectContent>
-                        <SelectItem value="nomic-embed-text">Nomic Embed Text</SelectItem>
+                        <SelectItem value="nomic-embed-text">
+                           Nomic Embed Text
+                        </SelectItem>
                         <SelectItem value="bert">Bert</SelectItem>
                      </SelectContent>
                   </Select>

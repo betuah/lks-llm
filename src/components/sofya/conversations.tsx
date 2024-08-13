@@ -100,6 +100,7 @@ const Conversations = ({
       if (uid) {
          fetchConversations();
       }
+   // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
    return (
@@ -153,7 +154,7 @@ const Conversations = ({
                         {Array.from({ length: 10 }).map((_, index) => (
                            <Skeleton
                               key={index}
-                              className="w-full h-6 rounded-[8px] bg-muted bg-accent"
+                              className="w-full h-6 rounded-[8px] bg-accent"
                            />
                         ))}
                      </div>

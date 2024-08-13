@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GearIcon } from "@radix-ui/react-icons";
 import { Skeleton } from "@/components/ui/skeleton";
-import EditUsernameForm from "./edit-username-form";
+import SettingsFrom from "./settings-form";
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 
@@ -97,7 +97,7 @@ const UserSettings = ({ setSettings }: PropsTypes) => {
                <DialogContent className="border border-primary">
                   <DialogHeader className="space-y-4">
                      <DialogTitle>Settings</DialogTitle>
-                     <EditUsernameForm setSettings={setSettings} open={open} setOpen={setOpen} />
+                     <SettingsFrom setSettings={setSettings} open={open} setOpen={setOpen} />
                   </DialogHeader>
                </DialogContent>
             </Dialog>

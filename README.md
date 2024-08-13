@@ -6,11 +6,11 @@ This is an AI assistant application designed specifically for learning English. 
 ## TechStack
 
 English Chat App System uses a number of technology stack to work properly:
-- [node.js] - Runtime for the lambda function
-- [NextJS] - Progressive, incrementally-adoptable JavaScript framework
-- [APIGateway] - Fast and modern bundler for building frontend apps.
-- [Cognito] - asdasd
-- [PostgresQL] - Powerful, open-source, relational database.
+- [Node.js](https://nodejs.org/) - Runtime for the lambda function
+- [NextJS](https://nextjs.org/) - Progressive, incrementally-adoptable JavaScript framework
+- [API Gateway](https://aws.amazon.com/api-gateway/) - Fully managed service for creating, publishing, maintaining, monitoring, and securing APIs at any scale.
+- [Amazon Cognito](https://aws.amazon.com/pm/cognito/) - User authentication, authorization, and user management service for web and mobile apps
+- [PostgresQL](https://www.postgresql.org) - Powerful, open-source, relational database.
 
 <hr>
 

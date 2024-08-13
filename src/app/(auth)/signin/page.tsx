@@ -53,7 +53,7 @@ const Signin = () => {
          if (result?.error) {
             setError('Invalid email or password');
          } else {
-            const redirectTo = searchParams.get("redirectTo") || "/sofya";
+            const redirectTo = searchParams.get("redirectTo") || "/";
             router.push(redirectTo);
          }
       } catch (error) {

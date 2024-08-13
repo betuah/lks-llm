@@ -30,9 +30,14 @@ const Home = () => {
         <div className="flex mt-5 mb-2">
           {
             status === "authenticated" ? 
-              <Button variant={"default"} className="text-[13px] font-bold h-8 mx-auto" onClick={() => router.push("/sofya")}>Go to Apps</Button>
+              (
+                <div className="flex flex-col gap-2 mx-auto w-[60%]">
+                  <Button variant={"default"} className="text-[13px] font-bold h-8 mx-auto w-full rounded-[8px]" onClick={() => router.push("/sofya")}>Go to Apps</Button>
+                  <Button variant={"outline"} className="text-[13px] font-bold h-8 mx-auto w-full rounded-[8px]" onClick={() => router.push("/check")}>Check Status</Button>
+                </div>
+              )
             : 
-            <Button variant={"default"} className="text-[13px] font-bold h-8 mx-auto" onClick={() => router.push("/signin")}>Sign In Here</Button>
+            <Button variant={"default"} className="text-[13px] font-bold h-8 mx-auto rounded-[8px]" onClick={() => router.push("/signin")}>Sign In Here</Button>
           }
         </div>
       </div>

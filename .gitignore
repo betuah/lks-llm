@@ -39,3 +39,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 *.code-workspace
+
+# Ignore node_modules in the layers directory
+/serverless/src/layers/node_modules
+
+# Ignore package-lock.json in the layers directory
+/serverless/src/layers/package-lock.json
+
+# Ignore all zip files in the layers directory
+/serverless/src/layers/*.zip

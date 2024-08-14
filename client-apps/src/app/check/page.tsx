@@ -94,8 +94,8 @@ const Dashboard = () => {
    }
 
    return (
-      <div className="flex flex-col gap-4 items-center justify-center w-full max-w-3xl mx-auto">
-         <span className="font-bold text-3xl mt-10">Apps Status</span>
+      <div className="flex flex-col gap-4 items-center justify-center w-full max-w-3xl mx-auto py-16">
+         <span className="font-bold text-3xl">Apps Status</span>
 
          <UserInfo 
             id={session?.user?.id}

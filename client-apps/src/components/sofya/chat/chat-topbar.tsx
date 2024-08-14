@@ -8,8 +8,8 @@ import {
 } from "@/components/ui/popover";
 
 import ChatContext from "@/context/ChatContext";
-import { Separator } from "../ui/separator";
-import { ModeToggle } from "../mode-toggle";
+import { Separator } from "@/components/ui/separator";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const ChatTopbar = () => {
    const { models, currentModel, setCurrentModel } = useContext(ChatContext);

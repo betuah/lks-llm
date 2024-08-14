@@ -5,6 +5,7 @@ import { ChatRequestOptions } from "ai";
 
 import { Button } from "@/components/ui/button";
 import StopIcon from "@/components/svg/stopIcon";
+import { toast } from "sonner";
 
 interface ChatBottomProps {
    value: string;
@@ -29,7 +30,7 @@ const ChatBottomBar: React.FC<ChatBottomProps> = ({
 
    const toggleListening = useCallback(() => {
       if (!("webkitSpeechRecognition" in window)) {
-         alert("Speech recognition is not supported in your browser.");
+         toast.error("Speech recognition is not supported in your browser.");
          return;
       }
 
@@ -48,7 +49,7 @@ const ChatBottomBar: React.FC<ChatBottomProps> = ({
          let finalTranscript = "";
 
          recognition.onstart = () => {
-            console.log("Speech recognition started");
+            toast.success("Speech recognition started");
             setIsListening(true);
          };
 
@@ -78,12 +79,13 @@ const ChatBottomBar: React.FC<ChatBottomProps> = ({
          };
 
          recognition.onerror = (event: any) => {
+            toast.error("Speech recognition error");
             console.error("Speech recognition error", event.error);
             setIsListening(false);
          };
 
          recognition.onend = () => {
-            console.log("Speech recognition ended");
+            toast.success("Speech recognition ended");
             setIsListening(false);
          };
 
@@ -91,6 +93,7 @@ const ChatBottomBar: React.FC<ChatBottomProps> = ({
             recognition.start();
             recognitionRef.current = recognition;
          } catch (error) {
+            toast.error("Error starting speech recognition:");
             console.error("Error starting speech recognition:", error);
             setIsListening(false);
          }

@@ -33,8 +33,9 @@ const UserSettings = ({ setSettings }: PropsTypes) => {
    const userData = session?.user as any;
    const [name, setName] = useState<string>(userData?.name);
 
-   const [open, setOpen] = useState(false);
-   const [isLoading, setIsLoading] = useState(false);
+   const [open, setOpen] = useState<boolean>(false);
+   const [openMenu, setOpenMenu] = useState<boolean>(false);
+   const [isLoading, setIsLoading] = useState<boolean>(false);
 
    const handleSignOut = async () => {
       setIsLoading(true);
@@ -47,8 +48,13 @@ const UserSettings = ({ setSettings }: PropsTypes) => {
       }
    };
 
+   const handleDialog = (request: boolean) => {
+      setOpen(request);
+      setOpenMenu(request);
+   };
+
    return (
-      <DropdownMenu>
+      <DropdownMenu onOpenChange={setOpenMenu} open={openMenu}>
          <DropdownMenuTrigger asChild>
             <Button
                variant="ghost"
@@ -97,7 +103,7 @@ const UserSettings = ({ setSettings }: PropsTypes) => {
                <DialogContent className="border border-primary">
                   <DialogHeader className="space-y-4">
                      <DialogTitle>Settings</DialogTitle>
-                     <SettingsFrom setSettings={setSettings} open={open} setOpen={setOpen} />
+                     <SettingsFrom setSettings={setSettings} open={open} setOpen={handleDialog} />
                   </DialogHeader>
                </DialogContent>
             </Dialog>

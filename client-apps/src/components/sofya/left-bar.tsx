@@ -86,7 +86,7 @@ const LeftBar: React.FC<PropsTypes> = ({
 
          <div className="mt-auto md:mb-4">
             <div className="border border-t-gray-800 border-b-0 border-x-0 mb-3 md:mb-1 mx-3"></div>
-            <div className="flex flex-col gap-1 px-6 py-3">
+            <div className="flex flex-col px-6 pt-2">
                <span className="text-xs text-muted-foreground">
                   Current Region
                </span>
@@ -98,7 +98,7 @@ const LeftBar: React.FC<PropsTypes> = ({
                      ({settingsData.region})
                   </span>
                   <Dot
-                     className={`ml-auto w-12 h-12 ${
+                     className={`ml-auto w-10 h-10 ${
                         regionStat ? "text-green-500" : "text-red-500"
                      }`}
                   />

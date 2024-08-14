@@ -17,7 +17,7 @@ import { Skeleton } from "../ui/skeleton";
 
 interface EditUsernameFormProps {
    open: boolean;
-   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+   setOpen: (request: boolean) => void;
    setSettings: (data: any) => void;
 }
 
@@ -94,7 +94,7 @@ export default function EditUsernameForm({
                </Select>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-2">
+            <div className="flex flex-col md:flex-row gap-3 mb-2">
                <div className="flex flex-1 flex-col gap-2">
                   <Label htmlFor="llmModel">LLM Model</Label>
                   <Select onValueChange={setLlmModel} value={llmModel}>
@@ -124,7 +124,7 @@ export default function EditUsernameForm({
                </div>
             </div>
 
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading} className="font-bold">
                {isLoading ? "Updating..." : "Update"}
             </Button>
          </div>

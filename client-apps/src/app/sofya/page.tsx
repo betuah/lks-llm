@@ -69,7 +69,6 @@ const ChatLayout = () => {
 
    const saveConversations = async () => {
       try {
-         alert(JSON.stringify(messages))
          await api.post(`/conversations/${session?.user?.id}`, {
             id: conversationId,
             title: messages[1].content.slice(0, 50),

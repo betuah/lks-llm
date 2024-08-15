@@ -115,8 +115,6 @@ const ChatLayout = () => {
    }, []);
 
    useEffect(() => {
-      // const a = await localStorage.getItem("settings")
-
       if (!isLoading) {
          if (messages.length > 1) {
             saveConversations()

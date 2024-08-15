@@ -198,19 +198,20 @@ export async function POST(req: Request) {
    const lastMsg = messages[messages.length - 1];
    const currentMessageContent = lastMsg.content;
 
+   console.log(messages)
+
    const ollama = new ChatOllama({
-      baseUrl: "http://localhost:11434",
-      // baseUrl: `${process.env.NEXT_PUBLIC_OLLAMA_URL}/${region}`,
+      baseUrl: process.env.MODE === "development" ? "http://localhost:11434" : `${process.env.NEXT_PUBLIC_API_GATEWAY_URL}/${region}`,
       model: "llama3",
-      temperature: 0.7,
-      topP: 0.9,
-      frequencyPenalty: 0.3,
-      presencePenalty: 0.3,
+      temperature: 0.3,
+      topP: 0.95,
+      frequencyPenalty: 0.1,
+      presencePenalty: 0.1,
    });
 
    const memory = new BufferWindowMemory({
       memoryKey: "chat_history",
-      k: 3, // Keep the last 3 messages
+      k: 4, // Keep the last 3 messages
       returnMessages: true,
    });
 

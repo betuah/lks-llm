@@ -15,7 +15,7 @@ import Sofya from "@/components/sofya/chat/index";
 import LeftBar from "@/components/sofya/left-bar";
 import RightBar from "@/components/sofya/right-bar";
 
-import { SettingsTypes } from "@/components/sofya/sofya-types";
+import { SettingsTypes, AssessmentCriteria } from "@/components/sofya/sofya-types";
 
 const ChatLayout = () => {
    const { data: session, status } = useSession();
@@ -32,6 +32,7 @@ const ChatLayout = () => {
    });
    const [conversationId, setConversationId] = useState<string>(uuid());
    const [conversations, setConversations] = useState([]);
+   const [assesment, setAssesment] = useState<AssessmentCriteria[]>([]);
    const [submitLoading, setSubmitLoading] = useState<boolean>(false);
    const [error, setError] = useState<string | null>(null);
 
@@ -104,6 +105,35 @@ const ChatLayout = () => {
    const handleSettings = (data: SettingsTypes) => {
       setSettingsData(data);
    }
+
+   const conversationStats = async () => {
+      try {
+         const response = await fetch(`/api/stats`, {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+               conversations: messages,
+               model: settingsData.llmModel,
+               region: settingsData.region
+            })
+         })
+
+         const data = await response.json()
+         const resData = data.data
+         setAssesment(resData)
+      } catch (error) {
+         console.log(error)
+         toast.error('Get Conversations Stats error!')
+      }
+   }
+
+   useEffect(() => {
+      if (!isLoading && messages.length > 1) {
+         conversationStats()
+      }
+   }, [isLoading])
 
    useEffect(() => {
       if (typeof window !== 'undefined') {
@@ -205,7 +235,7 @@ const ChatLayout = () => {
                      />
                   </DrawerTrigger>
                   <DrawerContent>
-                     <RightBar />
+                     <RightBar scores={assesment} />
                   </DrawerContent>
                </Drawer>
             </div>
@@ -236,7 +266,7 @@ const ChatLayout = () => {
                   setInput={setInput}
                />
                <div className="hidden md:flex w-full max-w-[280px]">
-                  <RightBar />
+                  <RightBar scores={assesment} />
                </div>
             </div>
          </div>

@@ -4,6 +4,7 @@ import Conversations from "./conversations";
 import { Dot } from "lucide-react";
 import api from "@/lib/api";
 import { useEffect, useState } from "react";
+import { SettingsTypes } from "./sofya-types";
 
 interface ConversationTypes {
    id: string;
@@ -14,25 +15,28 @@ interface ConversationTypes {
    updatedAt: string;
 }
 
+
 interface PropsTypes {
    uid: string;
    conversations: ConversationTypes[];
    conversationId: string;
+   settingsData: SettingsTypes;
    setConversationId: (id: string) => void;
    setConversations: (data: ConversationTypes[]) => void;
    setMessages: (data: any) => void;
+   setSettingsData: (data: SettingsTypes) => void;
 }
 
 const LeftBar: React.FC<PropsTypes> = ({
    uid,
    conversations,
    conversationId,
+   settingsData,
    setConversations,
    setMessages,
    setConversationId,
+   setSettingsData,
 }) => {
-   const settings = localStorage.getItem("settings");
-   const [settingsData, setSettingsData] = useState<any>(JSON.parse(settings || "{}"));
    const [regionStat, setregionStat] = useState<boolean>(false);
 
    const checkRegion = async () => {

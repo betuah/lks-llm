@@ -80,7 +80,7 @@ const Conversations = ({
    };
 
    const deleteAllConversations = async () => {
-      toast.promise(api.get(`/conversations/${uid}`), {
+      toast.promise(api.delete(`/conversations/${uid}`), {
          loading: "Deleting all conversations...",
          success: (data) => {
             fetchConversations();

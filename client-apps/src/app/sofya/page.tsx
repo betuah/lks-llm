@@ -15,6 +15,8 @@ import Sofya from "@/components/sofya/chat/index";
 import LeftBar from "@/components/sofya/left-bar";
 import RightBar from "@/components/sofya/right-bar";
 
+import { SettingsTypes } from "@/components/sofya/sofya-types";
+
 const ChatLayout = () => {
    const { data: session, status } = useSession();
    const userData = session?.user as any;
@@ -22,12 +24,16 @@ const ChatLayout = () => {
    const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
    const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
 
+   const [settingsData, setSettingsData] = useState<SettingsTypes>({
+      llmModel: "orca-mini",
+      embedModel: "nomic-embed-text",
+      region: "us-east-1",
+      name: userData?.name,
+   });
    const [conversationId, setConversationId] = useState<string>(uuid());
    const [conversations, setConversations] = useState([]);
    const [submitLoading, setSubmitLoading] = useState<boolean>(false);
    const [error, setError] = useState<string | null>(null);
-   const [model, setModel] = useState<string>("orca-mini");
-   const [region, setRegion] = useState<string>("us-east-1");
 
    const {
       messages,
@@ -42,9 +48,9 @@ const ChatLayout = () => {
       api: "/api/chat",
       body: {
          id: conversationId,
-         model: model,
+         model: settingsData.llmModel,
          name: userData?.name,
-         region: region,
+         region: settingsData.region,
       },
       initialMessages: [
          {
@@ -95,7 +101,22 @@ const ChatLayout = () => {
       setConversations(data)
    };
 
+   const handleSettings = (data: SettingsTypes) => {
+      setSettingsData(data);
+   }
+
    useEffect(() => {
+      if (typeof window !== 'undefined') {
+         const storedSettings = localStorage.getItem("settings");
+         if (storedSettings) {
+            setSettingsData(JSON.parse(storedSettings));
+         }
+      }
+   }, []);
+
+   useEffect(() => {
+      // const a = await localStorage.getItem("settings")
+
       if (!isLoading) {
          if (messages.length > 1) {
             saveConversations()
@@ -155,9 +176,11 @@ const ChatLayout = () => {
                         uid={userData?.id} 
                         conversationId={conversationId}
                         conversations={conversations} 
+                        settingsData={settingsData}
                         setConversationId={setConversationId}
                         setConversations={handleConversationChange} 
-                        setMessages={setMessages} 
+                        setMessages={setMessages}
+                        setSettingsData={handleSettings}
                      />
                   </DrawerContent>
                </Drawer>
@@ -196,9 +219,11 @@ const ChatLayout = () => {
                      uid={userData?.id} 
                      conversationId={conversationId}
                      conversations={conversations} 
+                     settingsData={settingsData}
                      setConversationId={setConversationId}
                      setConversations={handleConversationChange} 
                      setMessages={setMessages} 
+                     setSettingsData={handleSettings}
                   />
                </div>
                <Sofya

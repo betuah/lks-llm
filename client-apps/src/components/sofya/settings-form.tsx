@@ -104,7 +104,7 @@ export default function EditUsernameForm({
                      <SelectContent>
                         <SelectItem value="orca-mini">Orca Mini</SelectItem>
                         <SelectItem value="llama2">Llama 2</SelectItem>
-                        {/* Add more LLM models as needed */}
+                        <SelectItem value="llama3">Llama 3</SelectItem>
                      </SelectContent>
                   </Select>
                </div>

@@ -30,7 +30,14 @@ export interface ScoringReult {
    status: string;
    message: string;
    duration_ms: number;
-   data: AssessmentScores;
+   data: AspectScore[];
 }
+
+export type AspectScore = {
+   id: string;
+   title: string;
+   desc: string;
+   score: number;
+};
 
 export type { VercelChatMessage };

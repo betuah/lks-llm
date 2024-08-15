@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { VercelChatMessage, ScoringReult } from './types';
-import { formatConversation } from './utils';
+import { VercelChatMessage, ScoringReult, AspectScore } from './types';
+import { formatConversation, ASPECT_REFERENCES } from './utils';
 import { scoringWithPrompt } from './scoring';
 
 export const runtime = "edge";
@@ -12,14 +12,24 @@ export async function POST(req: NextRequest) {
       const conversationText = formatConversation(conversations);
 
       const start = Date.now();
-      const hybridScores = await scoringWithPrompt(conversationText, region, model);
+      const conversationScore = await scoringWithPrompt(conversationText, region, model);
       const duration = Date.now() - start;
+
+      const formattedScores: AspectScore[] = Object.entries(conversationScore).map(([key, value]) => {
+         const id = key.toLowerCase().replace(/ /g, '_');
+         return {
+            id,
+            title: key,
+            desc: ASPECT_REFERENCES[id as keyof typeof ASPECT_REFERENCES] || "",
+            score: value
+         };
+      });
 
       const result: ScoringReult = {
          status: "success",
          message: "Assessment comparison completed successfully",
          duration_ms: duration,
-         data: hybridScores
+         data: formattedScores
       };
 
       return NextResponse.json(result);

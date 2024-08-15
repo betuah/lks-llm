@@ -8,7 +8,7 @@ export const scoringWithPrompt = async(
 ): Promise<AssessmentScores> => {
    const prompt = `
 As an expert English language assessor, evaluate the following conversation. 
-Provide scores (0-10) for these aspects:
+Provide scores (0-100) for these aspects:
 
 1. Written Fluency
 2. Vocabulary
@@ -27,7 +27,7 @@ Provide scores (0-10) for these aspects:
 Conversation:
 ${conversation}
 
-Respond with a JSON object containing only the scores. Ensure all scores are integers between 0 and 10.
+Respond with a JSON object containing only the scores. Ensure all scores are integers between 0 and 100.
 `;
 
    const response = await llmQuery(prompt, region, model);
@@ -47,7 +47,7 @@ export const scoringWithHybrid = async (
    const embedding = await getEmbedding(conversation, region, model);
    const prompt = `
 As an expert English language assessor, evaluate the following conversation and its embedding representation. 
-Provide scores (0-10) for these aspects:
+Provide scores (0-100) for these aspects:
 
 1. Written Fluency
 2. Vocabulary
@@ -63,14 +63,11 @@ Provide scores (0-10) for these aspects:
 12. Asking Questions
 13. Overall Communication
 
-Conversation:
-${conversation}
-
-Conversation Embedding (first 10 values):
-${embedding.slice(0, 10).join(", ")}...
+Conversation Embedding:
+${embedding.join(", ")}
 
 Consider both the textual content and the embedding representation in your assessment.
-Respond with a JSON object containing only the scores. Ensure all scores are integers between 0 and 10.
+Respond with a JSON object containing only the scores. Ensure all scores are integers between 0 and 100.
 `;
 
    const response = await llmQuery(prompt, region, model);

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { VercelChatMessage, ScoringReult } from './types';
 import { formatConversation } from './utils';
-import { scoringWithHybrid } from './scoring';
+import { scoringWithPrompt } from './scoring';
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       const conversationText = formatConversation(conversations);
 
       const start = Date.now();
-      const hybridScores = await scoringWithHybrid(conversationText, region, model);
+      const hybridScores = await scoringWithPrompt(conversationText, region, model);
       const duration = Date.now() - start;
 
       const result: ScoringReult = {

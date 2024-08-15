@@ -7,27 +7,23 @@ export const scoringWithPrompt = async(
    model: string
 ): Promise<AssessmentScores> => {
    const prompt = `
-As an expert English language assessor, evaluate the following conversation. 
-Provide scores (0-100) for these aspects:
+As an expert English language assessor, evaluate the following conversation.  
+Provide scores (0-100) for these aspects of the user's English language skills:
 
 1. Written Fluency
 2. Vocabulary
 3. Grammar
 4. Comprehension
 5. Coherence
-6. Turn-taking
-7. Idiomatic Expressions
-8. Digital Etiquette
-9. Responsiveness
-10. Clarity
-11. Adaptability
-12. Asking Questions
-13. Overall Communication
+6. Digital Etiquette
+7. Responsiveness
+8. Clarity
+9. Overall Communication
 
 Conversation:
 ${conversation}
 
-Respond with a JSON object containing only the scores. Ensure all scores are integers between 0 and 100.
+Respond with a JSON object containing only the scores for user. Ensure all scores are integers between 0 and 100.
 `;
 
    const response = await llmQuery(prompt, region, model);
@@ -54,14 +50,10 @@ Provide scores (0-100) for these aspects:
 3. Grammar
 4. Comprehension
 5. Coherence
-6. Turn-taking
-7. Idiomatic Expressions
-8. Digital Etiquette
-9. Responsiveness
-10. Clarity
-11. Adaptability
-12. Asking Questions
-13. Overall Communication
+6. Digital Etiquette
+7. Responsiveness
+8. Clarity
+9. Overall Communication
 
 Conversation Embedding:
 ${embedding.join(", ")}

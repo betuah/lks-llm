@@ -7,7 +7,7 @@ const getOllamaUrl = (endpoint: string, region: string): string => {
       const baseUrl = process.env.NEXT_PUBLIC_API_GATEWAY_URL;
       return `${baseUrl}/${region}/${endpoint}`;
    }
-}
+};
 
 export const ASPECT_REFERENCES = {
    written_fluency: "Smooth and effortless expression of ideas in writing",
@@ -15,21 +15,26 @@ export const ASPECT_REFERENCES = {
    grammar: "Correct use of complex grammatical structures",
    comprehension: "Full understanding and appropriate responses",
    coherence: "Logically organized and clearly expressed ideas",
-   turn_taking: "Natural flow in conversation with appropriate turn-taking",
-   idiomatic_expressions: "Proper use of idioms and colloquial expressions",
-   digital_etiquette: "Proper use of punctuation, capitalization, and chat conventions",
+   digital_etiquette:
+      "Proper use of punctuation, capitalization, and chat conventions",
    responsiveness: "Timely and relevant replies to previous messages",
    clarity: "Clear and unambiguous expression of thoughts",
-   adaptability: "Adjusting language and tone to different topics or contexts",
-   asking_questions: "Asking relevant and engaging questions to maintain conversation",
    overall_communication: "Effective overall written communication skills",
 };
 
 export const formatConversation = (messages: VercelChatMessage[]): string => {
    return messages
-      .map((msg) => `${msg.role.toUpperCase()}: ${msg.content}`)
-      .join("\n");
-}
+      .map((msg) => {
+         if (msg.role === "assistant") {
+            const content = msg.content.split("\n\n**Notes:**")[0].trim(); // Remove notes section
+            return `Assistant: ${content}`;
+         }
+         return `${msg.role.charAt(0).toUpperCase() + msg.role.slice(1)}: ${
+            msg.content
+         }`;
+      })
+      .join("\n\n");
+};
 
 export const getEmbedding = async (
    text: string,
@@ -49,7 +54,7 @@ export const getEmbedding = async (
 
    const data = await response.json();
    return data.embedding;
-}
+};
 
 export const llmQuery = async (
    prompt: string,
@@ -74,7 +79,7 @@ export const llmQuery = async (
 
    const data = await response.json();
    return data.response;
-}
+};
 
 export const extractJSONFromString = (str: string): any => {
    const jsonMatch = str.match(/\{[\s\S]*\}/);
@@ -82,7 +87,7 @@ export const extractJSONFromString = (str: string): any => {
       throw new Error("Failed to extract JSON from string");
    }
    return JSON.parse(jsonMatch[0]);
-}
+};
 
 export const validateAssessmentScores = (
    scores: any
@@ -114,4 +119,4 @@ export const validateAssessmentScores = (
          );
       }
    }
-}
+};

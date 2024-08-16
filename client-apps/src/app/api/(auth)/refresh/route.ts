@@ -6,6 +6,12 @@ import {
    setRefreshTokenCookie,
 } from "@/lib/cookies";
 
+interface RefreshTokenResult {
+   accessToken: string;
+   expiresIn: number;
+   idToken: string;
+}
+
 export async function POST(request: NextRequest) {
    const refreshToken = await getRefreshTokenFromCookie();
 
@@ -17,12 +23,7 @@ export async function POST(request: NextRequest) {
    }
 
    try {
-      const response = await refreshAccessToken(refreshToken);
-      const newRefreshToken = response.refreshToken;
-
-      if (newRefreshToken) {
-         await setRefreshTokenCookie(newRefreshToken);
-      }
+      const response: RefreshTokenResult = await refreshAccessToken(refreshToken);
 
       return NextResponse.json(
          {

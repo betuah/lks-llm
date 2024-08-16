@@ -197,9 +197,9 @@ const RightBar = ({ scores = defaultData }: PropsTypes) => {
                   <div className={cn(
                      "text-[10px] font-medium",
                      {
-                        "text-rose-400": englishLevel === "Beginner",
+                        "text-sky-400": englishLevel === "Beginner",
                         "text-orange-400": englishLevel === "Intermediate",
-                        "text-sky-400": englishLevel === "Advanced",
+                        "text-violet-400": englishLevel === "Advanced",
                         "text-green-400": englishLevel === "Native",
                      }
                   )}>
@@ -207,7 +207,7 @@ const RightBar = ({ scores = defaultData }: PropsTypes) => {
                   </div>
                </div>
                <div className="flex gap-1 flex-row">
-                  {["bg-rose-400", "bg-orange-400", "bg-sky-400", "bg-green-400"].map((color, index) => (
+                  {["bg-sky-400", "bg-orange-400", "bg-violet-400", "bg-green-400"].map((color, index) => (
                      <div key={color} className="flex flex-1 w-full bg-accent-foreground rounded-full h-1">
                         <div
                            className={cn(`${color} h-1 rounded-full transition-all duration-500 ease-in-out`)}

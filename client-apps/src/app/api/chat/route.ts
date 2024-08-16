@@ -198,8 +198,6 @@ export async function POST(req: Request) {
    const lastMsg = messages[messages.length - 1];
    const currentMessageContent = lastMsg.content;
 
-   console.log(messages)
-
    const ollama = new ChatOllama({
       baseUrl: process.env.MODE === "development" ? "http://localhost:11434" : `${process.env.NEXT_PUBLIC_API_GATEWAY_URL}/${region}`,
       model: "llama3",

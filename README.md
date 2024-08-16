@@ -50,7 +50,9 @@ You can use **check page** (`http://FRONTEND_HOST/check`) to check connection to
 ### API Endpoint
 You can read API Endpoint spesification for `/conversations` on **API Gateway** in Document detail.
 
-### **LLM API Endpoint**
+<hr>
+
+## **LLM API Endpoint**
 > ### List Models
 ```sh
 GET /api/tags
@@ -64,7 +66,7 @@ curl http://SERVER_HOST:11434/api/tags
 ```sh
 POST /api/pull
 ```
-Download a model from the ollama library. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
+Download a model from the library. Cancelled pulls are resumed from where they left off, and multiple calls will share the same download progress.
 
 #### Parameters
 - `name`: name of the model to pull
@@ -83,14 +85,61 @@ POST /api/embed
 ```
 Generate embeddings from a model
 
-### Parameters
+#### Parameters
 - `model`: name of model to generate embeddings from
 - `input`: text or list of text to generate embeddings for
 
 #### Example Request
 ```sh
-curl http://localhost:11434/api/embed -d '{
+curl http://SERVER_HOST:11434/api/embed -d '{
   "model": "nomic-embed-text",
   "input": "Why is the sky blue?"
+}'
+```
+
+> ### Chat Stream
+```sh
+POST /api/chat
+```
+Generate the next message in a chat with a provided model. This is a streaming endpoint, so there will be a series of responses. Streaming can be disabled using "stream": false. The final response object will include statistics and additional data from the request.
+
+#### Parameters
+- `model`: name of model
+- `messages` : the messages of the chat, this can be used to keep a chat memory
+- `stream` : if `false` the response will be returned as a single response object, rather than a stream of objects
+The `message` object has the following fields:
+- `role`: the role of the message, either `system`, `user`, `assistant`
+- `content`: the content of the message
+
+#### Example Request
+```sh
+curl http://SERVER_HOST:11434/api/chat -d '{
+  "model": "llama3",
+  "messages": [
+    {
+      "role": "user",
+      "content": "why is the sky blue?"
+    }
+  ]
+}'
+```
+
+> ### Generate a Completion
+```sh
+POST /api/generate
+```
+Generate a response for a given prompt with a provided model. This is a streaming endpoint, so there will be a series of responses. The final response object will include statistics and additional data from the request.
+
+#### Parameters
+- `model`: name of model
+- `prompt` : the prompt to generate a response
+- `stream` : if `false` the response will be returned as a single response object, rather than a stream of objects
+
+#### Example Request
+POST Request
+```sh
+curl http://localhost:11434/api/generate -d '{
+  "model": "llama3",
+  "prompt": "Why is the sky blue?"
 }'
 ```

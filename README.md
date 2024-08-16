@@ -114,7 +114,7 @@ The `message` object has the following fields:
 #### Example Request
 ```sh
 curl http://SERVER_HOST:11434/api/chat -d '{
-  "model": "llama3",
+  "model": "orca-mini",
   "messages": [
     {
       "role": "user",

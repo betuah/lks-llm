@@ -20,8 +20,14 @@ The root folder for Front-End projects is **client-apps**.
 AUTH_SECRET="GENERATE_RANDOM_STRING_SECRET"
 AUTH_URL="YOUR_AUTH_URL" # http://localhost:3000
 NEXT_PUBLIC_COGNITO_CLIENT_ID="YOUR_COGNITO_APPS_CLIENT_ID"
-NEXT_PUBLUC_COGNITO_ID_TOKEN_EXPIRED="YOUR_COGNITO_ID_TOKEN_EXPIRED_IN_MINUTES"
+NEXT_PUBLUC_COGNITO_ID_TOKEN_EXPIRED="YOUR_COGNITO_ID_TOKEN_EXPIRED_IN_MINUTES" # 10
 NEXT_PUBLIC_API_GATEWAY_URL="YOUR_API_GATEWAY_URL"
+```
+
+#### Generate Random String
+To generate random string for auth secret you can use this command:
+```sh
+openssl rand -base64 16
 ```
 
 ### Project Setup
@@ -49,6 +55,9 @@ You can use **check page** (`http://FRONTEND_HOST/check`) to check connection to
 
 ### API Endpoint
 You can read API Endpoint spesification for `/conversations` on **API Gateway** in Document detail.
+
+### Lambda Source Code
+You can use all Lambda requirements in `/serverless/src`.
 
 ### LLM Worker setup
 All configurations for the LLM Workers should be managed using an Ansible playbook for automated configuration. You can use the Ansible playbook located at `/serverless/playbook.yml` to automate the configuration of all LLM Workers. Be sure to adjust the necessary variables within the playbook file `efs_ip: "YOUR_EFS_IP"`.
@@ -144,7 +153,7 @@ Generate a response for a given prompt with a provided model. This is a streamin
 POST Request
 ```sh
 curl http://localhost:11434/api/generate -d '{
-  "model": "llama3",
+  "model": "orca-mini",
   "prompt": "Why is the sky blue?"
 }'
 ```

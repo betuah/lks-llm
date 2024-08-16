@@ -50,6 +50,11 @@ You can use **check page** (`http://FRONTEND_HOST/check`) to check connection to
 ### API Endpoint
 You can read API Endpoint spesification for `/conversations` on **API Gateway** in Document detail.
 
+### LLM Worker setup
+All configurations for the LLM Workers should be managed using an Ansible playbook for automated configuration. You can use the Ansible playbook located at `/serverless/playbook.yml` to automate the configuration of all LLM Workers. Be sure to adjust the necessary variables within the playbook file `efs_ip: "YOUR_EFS_IP"`.
+
+In your AWS environment, you can execute this playbook using AWS Systems Manager (SSM) to automate the configuration process.
+
 <hr>
 
 ## **LLM API Endpoint**

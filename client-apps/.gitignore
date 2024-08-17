@@ -13,6 +13,10 @@
 /.next/
 /out/
 
+*.lockb
+
+src/api/chat/*.bk
+
 # production
 /build
 

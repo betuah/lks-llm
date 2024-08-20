@@ -3,16 +3,17 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - yarn install
     build:
       commands:
-        - npm run build
+        - yarn run build
   artifacts:
     baseDirectory: .next
     files:
       - '**/*'
   cache:
     paths:
+      - .next/cache/**/*
       - node_modules/**/*
   customHeaders:
     - pattern: '**/*'
@@ -24,3 +25,4 @@ frontend:
         - key: 'X-XSS-Protection'
           value: '1; mode=block'
   framework: next
+  appRoot: client-apps

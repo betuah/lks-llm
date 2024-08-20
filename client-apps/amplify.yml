@@ -25,4 +25,4 @@ frontend:
         - key: 'X-XSS-Protection'
           value: '1; mode=block'
   framework: next
-  appRoot: client-apps
+  appRoot: .

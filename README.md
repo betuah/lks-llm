@@ -15,7 +15,7 @@ English Chat App System uses a number of technology stack to work properly:
 ## Font-End Setup
 The root folder for Front-End projects is **client-apps**.
 ### Front-End Environment Variable
-
+These environment variables must be executed during the build phase, and make sure all environments are set before building or compiling the application. The application should only read environments from the .env file, but never upload the .env file to the Git repository or you will lose the point.
 ```sh
 AUTH_SECRET="GENERATE_RANDOM_STRING_SECRET"
 AUTH_URL="YOUR_AMPLIFY_URL" # http://AMPLIFY_URL

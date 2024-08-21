@@ -3,11 +3,15 @@ import {
    Message as VercelChatMessage,
    StreamingTextResponse,
 } from "ai";
+import { auth } from "@/auth";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
+   const session = await auth();
+   const token = session?.user?.idToken
+
    const {
       messages,
       name,
@@ -27,12 +31,11 @@ export async function POST(req: Request) {
          ? "http://localhost:11434/api/chat"
          : `${process.env.NEXT_PUBLIC_API_GATEWAY_URL}/${region}/chat`;
 
-   console.log(messages)
-
    const response = await fetch(ollamaApiUrl, {
       method: "POST",
       headers: {
          "Content-Type": "application/json",
+         "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({
          model: model || 'llama3',
@@ -45,6 +48,7 @@ export async function POST(req: Request) {
    });
 
    if (!response.ok) {
+      console.log(response.status);
       throw new Error(
          `Ollama API request failed with status ${response.status}`
       );

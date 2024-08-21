@@ -4,7 +4,7 @@ import { getEmbedding, llmQuery } from "./utils";
 export const scoringWithPrompt = async(
    conversation: string,
    region: string,
-   model: string
+   model: string,
 ): Promise<AssessmentScores> => {
    const prompt = `
 As an expert English language assessor, evaluate the following conversation.  

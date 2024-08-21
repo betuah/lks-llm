@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { auth } from "@/auth";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -57,6 +58,9 @@ const fixJsonResponse = (jsonString: string): string => {
 };
 
 export async function POST(req: Request) {
+   const session = await auth();
+   const token = session?.user?.idToken
+
    const { input, region }: { input: string; region: string } =
       await req.json();
 
@@ -75,6 +79,7 @@ export async function POST(req: Request) {
       method: "POST",
       headers: {
          "Content-Type": "application/json",
+         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
          model: "llama3",
@@ -90,19 +95,17 @@ export async function POST(req: Request) {
    }
 
    const resData = await response.json();
-   console.log(resData.response)
-   
-   // let correction;
+   let correction;
 
-   // try {
-   //    correction = JSON.parse(resData.response)
-   // } catch (error) {
-   //    try {
-   //       correction = fixJsonResponse(resData.response);
-   //    } catch (error) {
-   //       return NextResponse.json({ error: "Reponse is not valid JSON" });
-   //    }
-   // }
+   try {
+      correction = JSON.parse(resData.response)
+   } catch (error) {
+      try {
+         correction = fixJsonResponse(resData.response);
+      } catch (error) {
+         return NextResponse.json({ error: "Reponse is not valid JSON" });
+      }
+   }
 
    return NextResponse.json(resData.response);
 }

@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import type { AssessmentScores, VercelChatMessage } from "./types";
 
 const getOllamaUrl = (endpoint: string, region: string): string => {
@@ -41,10 +42,13 @@ export const getEmbedding = async (
    region: string,
    model: string
 ): Promise<number[]> => {
+   const session = await auth();
+   const token = session?.user?.idToken
+
    const url = getOllamaUrl("embeddings", region);
    const response = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ model, prompt: text }),
    });
 
@@ -61,10 +65,13 @@ export const llmQuery = async (
    region: string,
    model: string
 ): Promise<string> => {
+   const session = await auth();
+   const token = session?.user?.idToken
+
    const url = getOllamaUrl("generate", region);
    const response = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({
          model,
          prompt,
@@ -78,6 +85,11 @@ export const llmQuery = async (
    }
 
    const data = await response.json();
+
+   if (data?.error) {
+      throw new Error(data.error);
+   }
+
    return data.response;
 };
 

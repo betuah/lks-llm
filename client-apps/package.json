@@ -36,7 +36,7 @@
     "iron-session": "^8.0.2",
     "langchain": "^0.2.7",
     "lucide-react": "^0.396.0",
-    "next": "14.2.4",
+    "next": "14.2.10",
     "next-auth": "^5.0.0-beta.19",
     "next-themes": "^0.3.0",
     "ollama": "^0.5.2",

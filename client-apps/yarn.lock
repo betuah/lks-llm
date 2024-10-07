@@ -731,6 +731,15 @@
     zod "^3.22.4"
     zod-to-json-schema "^3.22.3"
 
+"@langchain/ollama@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@langchain/ollama/-/ollama-0.0.4.tgz#b727d03710a3ebbd5b7eb789199c0cb97dc09015"
+  integrity sha512-laYaYFZsbu0Mjhm40CypXPV5gYvQjd16oBEoGnFFjmCUgCCu6gjETg3tgvgifo7w+dhmNPLUyqnjXA/BpWEH2Q==
+  dependencies:
+    "@langchain/core" ">=0.2.21 <0.3.0"
+    ollama "^0.5.6"
+    uuid "^10.0.0"
+
 "@langchain/openai@>=0.1.0 <0.3.0", "@langchain/openai@>=0.2.0 <0.3.0":
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/@langchain/openai/-/openai-0.2.6.tgz#644391f26a3ad89778c17484efc1a4e8bfc04ead"
@@ -2286,7 +2295,7 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
-cookie@0.6.0, cookie@^0.6.0:
+cookie@0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.6.0.tgz#2798b04b071b0ecbff0dbb62a505a8efa4e19051"
   integrity sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==
@@ -2295,6 +2304,11 @@ cookie@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.5.0.tgz#d1f5d71adec6558c58f389987c366aa47e994f8b"
   integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
+
+cookie@^0.7.0:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.7.2.tgz#556369c472a2ba910f2979891b526b3436237ed7"
+  integrity sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==
 
 cross-spawn@^7.0.0, cross-spawn@^7.0.2:
   version "7.0.3"
@@ -4554,6 +4568,13 @@ ollama@^0.5.2:
   version "0.5.8"
   resolved "https://registry.yarnpkg.com/ollama/-/ollama-0.5.8.tgz#d52f20345b4b49e26734cf2e8749dd95899c2c99"
   integrity sha512-frBGdfSV34i7JybLZUeyCYDx0CMyDiG4On8xOK+cNRWM04HImhoWgIMpF4p7vTkQumadbSxOteR7SZyKqNmOXg==
+  dependencies:
+    whatwg-fetch "^3.6.20"
+
+ollama@^0.5.6:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/ollama/-/ollama-0.5.9.tgz#d8c010fa80c8d6ece0c5cbc19b8432c780316cc0"
+  integrity sha512-F/KZuDRC+ZsVCuMvcOYuQ6zj42/idzCkkuknGyyGVmNStMZ/sU3jQpvhnl4SyC0+zBzLiKNZJnJeuPFuieWZvQ==
   dependencies:
     whatwg-fetch "^3.6.20"
 

@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^0.0.33",
+    "@ai-sdk/openai": "^1.0.8",
     "@aws-sdk/client-cognito-identity-provider": "^3.616.0",
     "@hookform/resolvers": "^3.9.0",
     "@langchain/community": "^0.2.13",
@@ -29,7 +29,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.2",
     "@types/next-auth": "^3.15.0",
-    "ai": "^3.2.10",
+    "ai": "^4.0.14",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cookie": "^0.6.0",

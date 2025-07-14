@@ -12,7 +12,7 @@
     "@ai-sdk/openai": "^0.0.33",
     "@aws-sdk/client-cognito-identity-provider": "^3.616.0",
     "@hookform/resolvers": "^3.9.0",
-    "@langchain/community": "^0.2.13",
+    "@langchain/community": "^0.3.0",
     "@langchain/core": "^0.2.9",
     "@langchain/ollama": "^0.0.4",
     "@radix-ui/react-alert-dialog": "^1.1.1",

@@ -3,7 +3,7 @@
   hosts: all
   become: true
   vars:
-    efs_ip: "YOUR_EFS_IP"
+    efs_dns: "YOUR_EFS_DNS"
     share_path: "/share"
     llm_data: "/share/llm"
     llm_tmp: "/share/tmp"
@@ -35,7 +35,7 @@
       tags: [nfs]
 
     - name: Check if NFS is already mounted
-      shell: mount | grep -q '{{ efs_ip }}:/'
+      shell: mount | grep -q '{{ efs_dns }}:/'
       register: nfs_mounted
       ignore_errors: true
       changed_when: false
@@ -43,7 +43,7 @@
 
     - name: Mount NFS
       mount:
-        src: "{{ efs_ip }}:/"
+        src: "{{ efs_dns }}:/"
         path: "{{ share_path }}"
         fstype: nfs4
         opts: defaults,_netdev
@@ -54,7 +54,7 @@
     - name: Add mount entry to /etc/fstab
       lineinfile:
         path: /etc/fstab
-        line: "{{ efs_ip }}:/ {{ share_path }} nfs4 defaults,_netdev 0 0"
+        line: "{{ efs_dns }}:/ {{ share_path }} nfs4 defaults,_netdev 0 0"
         state: present
       tags: [nfs]
 

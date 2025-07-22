@@ -3,7 +3,7 @@
   hosts: all
   become: true
   vars:
-    efs_ip: "YOUR_EFS_IP"
+    efs_ip: "172.32.1.118"
     share_path: "/share"
     llm_data: "/share/llm"
     llm_tmp: "/share/tmp"

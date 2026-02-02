@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.33",
-    "@aws-sdk/client-cognito-identity-provider": "^3.616.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.730.0",
     "@hookform/resolvers": "^3.9.0",
     "@langchain/community": "^0.2.13",
     "@langchain/core": "^0.2.9",
@@ -36,7 +36,7 @@
     "iron-session": "^8.0.2",
     "langchain": "^0.2.7",
     "lucide-react": "^0.396.0",
-    "next": "14.2.4",
+    "next": "15.5.10",
     "next-auth": "^5.0.0-beta.19",
     "next-themes": "^0.3.0",
     "ollama": "^0.5.2",
